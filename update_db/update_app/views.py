@@ -3,5 +3,3 @@ from django.http import HttpResponse
 
 def home(request):
     return HttpResponse("XXX")
-
-# Create your views here.
