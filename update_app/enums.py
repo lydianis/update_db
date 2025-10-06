@@ -25,3 +25,14 @@ class OGCServiceEnum(TextChoices):
     WMC = "wmc"
     DATASET = "dataset"
     CSW = "csw"
+
+
+class MetadataOriginEnum(TextChoices):
+    """ Defines origins from where a resource could be coming from
+
+    """
+    CAPABILITIES = "Capabilities"
+    UPLOAD = "Upload"
+    FILE_SYSTEM_IMPORT = "File System Import"
+    EDITOR = "Editor"
+    CATALOGUE = "Catalogue"
