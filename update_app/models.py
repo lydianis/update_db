@@ -1,6 +1,7 @@
 from uuid import uuid4
 
 from django.db import models
+from mptt.models import MPTTModel, TreeForeignKey
 from simple_history.models import HistoricalRecords
 from .enums import OGCServiceVersionEnum
 
@@ -42,9 +43,9 @@ class WebMapService(models.Model):
                                 default="")
 
 
-class Layer(models.Model):
+class Layer(MPTTModel):
     """Model for single WMS Layers"""
-    name = models.Charfield(max_length=200, unique=True)
+    name = models.CharField(max_length=200, unique=True)
     title: str = models.CharField(max_length=1000,
                                   verbose_name=("title"),
                                   help_text=(
@@ -55,9 +56,18 @@ class Layer(models.Model):
                                     "brief summary of the content of this metadata."),
                                 blank=True,
                                 default="")
+    parent = TreeForeignKey('self',
+                            on_delete=models.CASCADE,
+                            null=True,
+                            blank=True,
+                            related_name='children')
+    sort_order = models.PositiveIntegerField(default=0)
     
     def __str__(self):
         return self.name
+    
+    class MPTTMeta:
+        order_insertion_by = ['sort_order']
 
 
 class WebFeatureService(models.Model):
