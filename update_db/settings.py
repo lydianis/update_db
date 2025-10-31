@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
     'simple_history',
+    'mptt',
     'update_app',
 ]
 

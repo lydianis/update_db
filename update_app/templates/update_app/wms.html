@@ -1,0 +1,12 @@
+{% extends "update_app/layout.html" %}
+{% block title %}
+About
+{% endblock %}
+{% block content %}
+<p>WebMapService</p>
+<p>Old Service: {{ xml_file_1 }} </p>
+<p>New Service:</p>
+<p>Differences:</p>
+{{ edit_file }}
+
+{% endblock %}

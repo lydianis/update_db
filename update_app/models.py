@@ -29,7 +29,8 @@ class WebMapService(models.Model):
         help_text=("the version of the service type as sem version"),
     )
 
-    # name =  id or identifier or name ???
+    name =  models.CharField(max_length=200,
+                             default="")
 
     title: str = models.CharField(max_length=1000,
                                   verbose_name=("title"),
@@ -46,6 +47,13 @@ class WebMapService(models.Model):
 class Layer(MPTTModel):
     """Model for single WMS Layers"""
     name = models.CharField(max_length=200, unique=True)
+    WebMapService = models.ForeignKey(
+        to=WebMapService,
+        on_delete=models.CASCADE,
+        editable=False,
+        verbose_name="service",
+        help_text="the WMS where this layer is part of",
+    )
     title: str = models.CharField(max_length=1000,
                                   verbose_name=("title"),
                                   help_text=(
@@ -56,6 +64,7 @@ class Layer(MPTTModel):
                                     "brief summary of the content of this metadata."),
                                 blank=True,
                                 default="")
+
     parent = TreeForeignKey('self',
                             on_delete=models.CASCADE,
                             null=True,

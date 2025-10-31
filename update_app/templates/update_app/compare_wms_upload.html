@@ -1,0 +1,45 @@
+{% extends "update_app/layout.html" %}
+{% block title %}
+Compare uploaded
+{% endblock %}
+{% block content %}
+<h1>WebMapService</h1>
+<h2>WMS-Dateien vergleichen</h2>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Vergleichen</button>
+  </form>
+
+  {% if has_result %}
+    <h2>Ergebnisse: {{ wms1.name }} ↔ {{ wms2.name }}</h2>
+
+    <h3>Neue Layer</h3>
+    <ul>
+      {% for name in added_layers %}
+        <li>{{ name }}</li>
+      {% empty %}
+        <li>Keine neuen Layer</li>
+      {% endfor %}
+    </ul>
+
+    <h3>Entfernte Layer</h3>
+    <ul>
+      {% for name in removed_layers %}
+        <li>{{ name }}</li>
+      {% empty %}
+        <li>Keine entfernten Layer</li>
+      {% endfor %}
+    </ul>
+
+    <h3>Geänderte Layer</h3>
+    <ul>
+      {% for name, old, new in changed_layers %}
+        <li>{{ name }}: "{{ old }}" → "{{ new }}"</li>
+      {% empty %}
+        <li>Keine Änderungen</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endblock %}

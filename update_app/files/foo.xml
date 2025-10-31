@@ -1,0 +1,10 @@
+<foo>
+  <bar>
+    <baz>42</baz>
+  </bar>
+  <bar>
+    <baz>13</baz>
+  </bar>
+  <qux>A</qux>
+  <qux>B</qux>
+</foo>

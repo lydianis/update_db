@@ -1,0 +1,42 @@
+{% extends "update_app/layout.html" %}
+{% block title %}
+About
+{% endblock %}
+{% block content %}
+<h1>WebMapService</h1>
+<p>Vergleich: {{ wms1.name }} vs. {{ wms2.name }}  </p>
+
+<h2>Neue Layer (in {{ wms2.name }})</h2>
+<ul>
+  {% for layer in added_layers %}
+    <li>{{ layer.name }} – {{ layer.title }}</li>
+  {% empty %}
+    <li>Keine neuen Layer</li>
+  {% endfor %}
+</ul>
+
+<h2>Entfernte Layer (aus {{ wms1.name }})</h2>
+<ul>
+  {% for layer in removed_layers %}
+    <li>{{ layer.name }} – {{ layer.title }}</li>
+  {% empty %}
+    <li>Keine entfernten Layer</li>
+  {% endfor %}
+</ul>
+
+<h2>Geänderte Layer</h2>
+<ul>
+  {% for l1, l2 in changed_layers %}
+    <li>{{ l1.name }}: "{{ l1.title }}" → "{{ l2.title }}"</li>
+  {% empty %}
+    <li>Keine Änderungen</li>
+  {% endfor %}
+</ul>
+
+<form method="get">
+  <input type="hidden" name="wms1" value="{{ wms1.id }}">
+  <input type="hidden" name="wms2" value="{{ wms2.id }}">
+  <input type="hidden" name="sync" value="1">
+  <button type="submit">Synchronisieren</button>
+</form>
+{% endblock %}

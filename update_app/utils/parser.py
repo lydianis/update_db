@@ -1,6 +1,12 @@
+import os
+# from ...update_db.settings import BASE_DIR
+# from django.conf import settings
 from lxml import etree
+from eulxml import xmlmap
+
 
 def parse_wms_capabilities(xml_file_path):
+    print("inside parse_wms_capabilities")
     tree = etree.parse(xml_file_path)
     root = tree.getroot()
     nsmap = root.nsmap
@@ -14,9 +20,34 @@ def parse_wms_capabilities(xml_file_path):
     }
     """
 
+    # SERVICE
+    top_element = root.xpath('//wms:Service', namespaces=nsmap)
+
+    service_elements = {}
+
+    def parse_service_elements(service_elem):
+        name_elem = service_elem.find('wms:Name', namespaces=nsmap)
+
+        name = name_elem.text
+        title = service_elem.findtext('wms:Title', default='', namespaces=nsmap)
+        abstract = service_elem.findtext('wms:Abstract', default='', namespaces=nsmap)
+
+        # create json for service
+        service_elements[name] = {
+            'name': name,
+            'title': title,
+            'abstract': abstract
+        }
+
+    # start: /WMS_Capabilities/Service
+    top_service_element = root.find('.//wms:Service', namespaces=nsmap)
+    if top_service_element is not None:
+        parse_service_elements(top_service_element)
+
+    # LAYER
     top_layer = root.xpath('//wms:Capability/wms:Layer', namespaces=nsmap)
 
-    layers ={}
+    layers = {}
 
     def parse_layer(layer_elem):
         name_elem = layer_elem.find('wms:Name', namespaces=nsmap)
@@ -42,7 +73,11 @@ def parse_wms_capabilities(xml_file_path):
     if top_layer is not None:
         parse_layer(top_layer)
 
-    return layers
+    return service_elements, layers
 
-
+s, l = parse_wms_capabilities('/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0.xml')
+print('SERVICE:')
+print(s)
+print('LAYER:')
+print(l)
 
