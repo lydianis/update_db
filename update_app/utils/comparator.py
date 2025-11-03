@@ -4,10 +4,10 @@ from lxml import etree
 # from models import Layer
 from django.db import transaction
 
-xml_file_1 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0.xml'
-xml_file_2 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0_modified.xml'
+# xml_file_1 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0.xml'
+# xml_file_2 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0_modified.xml'
 
-def compare_xml():
+def compare_xml(xml_file_1, xml_file_2):
     # xml_file_1 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0.xml'
     # xml_file_2 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0_modified.xml'
 
@@ -19,8 +19,13 @@ def compare_xml():
 
     return edit_file
 
-diff = compare_xml()
-print(diff)
+# only for TESTING:
+# diff = compare_xml()
+# print(diff)
+
+
+def compare_service_part():
+    pass
 
 """
 def compare_lxml_tree():

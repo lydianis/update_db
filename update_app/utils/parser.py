@@ -22,6 +22,7 @@ def parse_wms_capabilities(xml_file_path):
 
     # SERVICE
     top_element = root.xpath('//wms:Service', namespaces=nsmap)
+    print(top_element)
 
     service_elements = {}
 
@@ -46,6 +47,7 @@ def parse_wms_capabilities(xml_file_path):
 
     # LAYER
     top_layer = root.xpath('//wms:Capability/wms:Layer', namespaces=nsmap)
+    print(top_layer)
 
     layers = {}
 
@@ -63,7 +65,7 @@ def parse_wms_capabilities(xml_file_path):
             'abstract': abstract
         }
 
-        # recursiv walk through sublayer
+        # recursive walk through sublayer
         sublayers = layer_elem.findall('wms:Layer', namespaces=nsmap)
         for sub in sublayers:
             parse_layer(sub)

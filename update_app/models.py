@@ -9,6 +9,47 @@ def xml_backup_file_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/xml_documents/<id>/<filename>
     return 'xml_documents/{0}/{1}'.format(instance.pk, filename)
 
+
+class MetadataContact(models.Model):
+    contact_name = models.CharField(max_length=256,
+                            default='',
+                            verbose_name=("Name"),
+                            help_text=("The name of the organization"))
+    person_name = models.CharField(max_length=200,
+                                   default='',
+                                   blank=True,
+                                   verbose_name=("Contact person"))
+    email = models.EmailField(max_length=100,
+                              default='',
+                              verbose_name=('E-Mail'))
+    phone = models.CharField(max_length=100,
+                             default='',
+                             blank=True,
+                             verbose_name=('Phone'))
+    facsimile = models.CharField(max_length=100,
+                                 default='',
+                                 blank=True,
+                                 verbose_name=("Facsimile"))
+    city = models.CharField(max_length=100,
+                            default='',
+                            verbose_name=("City"))
+    postal_code = models.CharField(max_length=100,
+                                   default='',
+                                   verbose_name=("Postal code"))
+    address_type = models.CharField(max_length=100,
+                                    default='',
+                                    verbose_name=("Address type"))
+    address = models.CharField(max_length=100,
+                               default='',
+                               verbose_name=("Address"))
+    state_or_province = models.CharField(max_length=100,
+                                         default='',
+                                         verbose_name=("State or province"))
+    country = models.CharField(max_length=100,
+                               default='',
+                               verbose_name=("Country"))
+
+
 class WebMapService(models.Model):
     """Model for WMS capabilities document."""
 
@@ -16,7 +57,7 @@ class WebMapService(models.Model):
                                        help_text=(
                                            "the original xml as backup to restore the xml field."),
                                        upload_to=xml_backup_file_path,
-                                       editable=False,
+                                       # editable=False,
                                        )
     
     history = HistoricalRecords()
@@ -27,6 +68,7 @@ class WebMapService(models.Model):
         editable=False,
         verbose_name=("version"),
         help_text=("the version of the service type as sem version"),
+        default=""
     )
 
     name =  models.CharField(max_length=200,
@@ -42,7 +84,47 @@ class WebMapService(models.Model):
                                     "brief summary of the content of this service"),
                                 blank=True,
                                 default="")
-
+    
+    # contact_metadata    
+    contact_name = models.CharField(max_length=256,
+                            default='',
+                            verbose_name=("Name"),
+                            help_text=("The name of the organization"))
+    person_name = models.CharField(max_length=200,
+                                   default='',
+                                   blank=True,
+                                   verbose_name=("Contact person"))
+    email = models.EmailField(max_length=100,
+                              default='',
+                              verbose_name=('E-Mail'))
+    phone = models.CharField(max_length=100,
+                             default='',
+                             blank=True,
+                             verbose_name=('Phone'))
+    facsimile = models.CharField(max_length=100,
+                                 default='',
+                                 blank=True,
+                                 verbose_name=("Facsimile"))
+    city = models.CharField(max_length=100,
+                            default='',
+                            verbose_name=("City"))
+    postal_code = models.CharField(max_length=100,
+                                   default='',
+                                   verbose_name=("Postal code"))
+    address_type = models.CharField(max_length=100,
+                                    default='',
+                                    verbose_name=("Address type"))
+    address = models.CharField(max_length=100,
+                               default='',
+                               verbose_name=("Address"))
+    state_or_province = models.CharField(max_length=100,
+                                         default='',
+                                         verbose_name=("State or province"))
+    country = models.CharField(max_length=100,
+                               default='',
+                               verbose_name=("Country"))
+    
+    
 
 class Layer(MPTTModel):
     """Model for single WMS Layers"""

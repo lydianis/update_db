@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from update_app.models import WebMapService, WebFeatureService
 from update_app.services import WebMapServiceComparator, parse_wms_file, compare_parsed_wms, import_wms_to_db
+from .utils.parser import parse_wms_capabilities
 from .utils import comparator, parser
 from django.views import View
 from django.views.generic import TemplateView, FormView
@@ -39,29 +40,50 @@ class WebMapServiceView(TemplateView):
     
     def get(self, request):
 
-        edit_file = comparator.compare_xml()
+        xml_file_1 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0.xml'
+        xml_file_2 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0_modified.xml'
+
+        edit_file = comparator.compare_xml(xml_file_1, xml_file_2)
+
+        service1, layers1 = parse_wms_capabilities(xml_file_1)
+        service2, layers2 = parse_wms_capabilities(xml_file_2)
+
         context = { 
+            "xml_file_1": xml_file_1,
+            "xml_file_2": xml_file_2,
             "edit_file": edit_file,
+            "wms1_service": service1,
+            "wms2_service": service2,
         }
 
         return render(request, "update_app/wms.html", context)
 
 
 class CompareWebMapServicesView(TemplateView):
-    template_name = "compare_wms.html"
+    # template_name = "compare_wms.html"
+    template_name = "wms.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        wms1_id = self.request.GET.get("wms1")
-        wms2_id = self.request.GET.get("wms2")
+        base_path = Path(__file__).resolve().parent / "files"
+        wms1_file = base_path / "fixture_1.3.0.xml"
+        wms2_file = base_path / "fixture_1.3.0_modified.xml"
+
+        # wms1_id = self.request.GET.get("wms1")
+        # wms2_id = self.request.GET.get("wms2")
         # sync = self.request.GET.get("sync")  # optionaler Parameter zum Synchronisieren
         
 
-        wms1 = get_object_or_404(WebMapService, pk=wms1_id)
-        wms2 = get_object_or_404(WebMapService, pk=wms2_id)
+        # wms1 = get_object_or_404(WebMapService, pk=wms1_id)
+        # wms2 = get_object_or_404(WebMapService, pk=wms2_id)
+        xml_file_1 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0.xml'
+        xml_file_2 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0_modified.xml'
 
-        comparator = WebMapServiceComparator(wms1, wms2)
+        wms1_file = parse_wms_file(xml_file_1)
+        wms2_file = parse_wms_file(xml_file_2)
+
+        comparator = WebMapServiceComparator(wms1_file, wms2_file)
 
         # if sync:
         #     diffs = comparator.synchronize()
@@ -69,8 +91,8 @@ class CompareWebMapServicesView(TemplateView):
         diffs = comparator.compare()
 
         context.update({
-            "wms1": wms1,
-            "wms2": wms2,
+            "wms1": wms1_file,
+            "wms2": wms2_file,
             "added_layers": diffs["added"],
             "removed_layers": diffs["removed"],
             "changed_layers": diffs["changed"],
@@ -79,7 +101,7 @@ class CompareWebMapServicesView(TemplateView):
         return context
     
 class CompareLocalWMSView(TemplateView):
-    template_name = "compare_wms.html"
+    template_name = "update_app/compare_wms.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -87,6 +109,8 @@ class CompareLocalWMSView(TemplateView):
         base_path = Path(__file__).resolve().parent / "files"
         wms1_file = base_path / "fixture_1.3.0.xml"
         wms2_file = base_path / "fixture_1.3.0_modified.xml"
+        print("1: ", wms1_file )
+        print("2: ", wms2_file)
 
         wms1 = parse_wms_file(wms1_file)
         wms2 = parse_wms_file(wms2_file)
