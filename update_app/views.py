@@ -6,7 +6,7 @@ from .utils.parser import parse_wms_capabilities
 from .utils import comparator, parser
 from .utils.foo_service import parse_foo
 from django.views import View
-from django.views.generic import TemplateView, FormView
+from django.views.generic import TemplateView, DetailView, FormView
 from .forms import WMSUploadForm
 from django.template import loader
 from pathlib import Path
@@ -31,12 +31,6 @@ def about(request):
 
 def foo(request):
     return(render(request, "update_app/foo_f.html"))
-
-def show_wms(request):
-    template = loader.get_template('update_app/wms.html')
-    context ={
-    } 
-    return HttpResponse(template.render())
 
 
 class FooView(TemplateView):
@@ -73,16 +67,18 @@ class WebMapServiceView(TemplateView):
         return render(request, "update_app/wms.html", context)
 
 
+class WebMapServiceShowView(TemplateView):
+    model = WebMapService
+    template_name = 'update_app/show_wms.html'
+    context_object_name = 'wms'
+
+
 class CompareWebMapServicesView(TemplateView):
     # template_name = "compare_wms.html"
-    template_name = "wms.html"
+    template_name = "update_app/wms.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        base_path = Path(__file__).resolve().parent / "files"
-        wms1_file = base_path / "fixture_1.3.0.xml"
-        wms2_file = base_path / "fixture_1.3.0_modified.xml"
 
         # wms1_id = self.request.GET.get("wms1")
         # wms2_id = self.request.GET.get("wms2")

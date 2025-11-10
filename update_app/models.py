@@ -124,6 +124,9 @@ class WebMapService(models.Model):
                                default='',
                                verbose_name=("Country"))
     
+    def __str__(self):
+        return self.title
+    
     
 
 class Layer(MPTTModel):
