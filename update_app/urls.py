@@ -2,12 +2,14 @@
 
 from django.urls import path
 from update_app import views
-from update_app.views import WebMapServiceView, WebFeatureServiceView
+from update_app.views import FooView, WebMapServiceView, WebFeatureServiceView
 from update_app.views import CompareWebMapServicesView, CompareLocalWMSView, WMSFileCompareView
 
 urlpatterns =[
     path("", views.home, name="home"),
     path("about/", views.about, name="about"),
+    path("foo_f/", views.foo, name="foo_f"),
+    path("foo_c/", FooView.as_view(), name="foo_c"),
     path("wms/", WebMapServiceView.as_view(), name="wms"),
     path("wfs/", WebFeatureServiceView.as_view(), name="wfs"),
     path("show_wms/", views.show_wms, name="show_wms"),

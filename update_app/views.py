@@ -4,6 +4,7 @@ from update_app.models import WebMapService, WebFeatureService
 from update_app.services import WebMapServiceComparator, parse_wms_file, compare_parsed_wms, import_wms_to_db
 from .utils.parser import parse_wms_capabilities
 from .utils import comparator, parser
+from .utils.foo_service import parse_foo
 from django.views import View
 from django.views.generic import TemplateView, FormView
 from .forms import WMSUploadForm
@@ -28,11 +29,24 @@ def home(request):
 def about(request):
     return(render(request, "update_app/about.html"))
 
+def foo(request):
+    return(render(request, "update_app/foo_f.html"))
+
 def show_wms(request):
     template = loader.get_template('update_app/wms.html')
     context ={
     } 
     return HttpResponse(template.render())
+
+
+class FooView(TemplateView):
+    # template_name = "update_app/foo_c.html"
+    def get(self, request):
+        baz1 = parse_foo()
+        context ={
+            "baz1": baz1,
+        }
+        return render(request, "update_app/foo_c.html", context)
 
 
 class WebMapServiceView(TemplateView):
