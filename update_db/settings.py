@@ -134,3 +134,30 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Defines xml namespaces used for xml parsing and creating
+XML_NAMESPACES = {
+    "ogc": "http://www.opengis.net/ogc",
+    "ows": "http://www.opengis.net/ows",
+    "wfs": "http://www.opengis.net/wfs",
+    "wms": "http://www.opengis.net/wms",
+    "xlink": "http://www.w3.org/1999/xlink",
+    "gml": "http://www.opengis.net/gml",
+    "gmd": "http://www.isotc211.org/2005/gmd",
+    "gco": "http://www.isotc211.org/2005/gco",
+    "srv": "http://www.isotc211.org/2005/srv",
+    "xsi": "http://www.w3.org/2001/XMLSchema-instance",
+    "ave": "http://repository.gdi-de.org/schemas/adv/produkt/alkis-vereinfacht/1.0",
+    "inspire_common": "http://inspire.ec.europa.eu/schemas/common/1.0",
+    "inspire_com": "http://inspire.ec.europa.eu/schemas/common/1.0",
+    "inspire_vs": "http://inspire.ec.europa.eu/schemas/inspire_vs/1.0",
+    "inspire_ds": "http://inspire.ec.europa.eu/schemas/inspire_ds/1.0",
+    "inspire_dls": "http://inspire.ec.europa.eu/schemas/inspire_dls/1.0",
+    "epsg": "urn:x-ogp:spec:schema-xsd:EPSG:1.0:dataset",
+    "ms": "http://mapserver.gis.umn.edu/mapserver",
+    "se": "http://www.opengis.net/se",
+    "xsd": "http://www.w3.org/2001/XMLSchema",
+    "sld": "http://www.opengis.net/sld",
+    "fes": "http://www.opengis.net/fes/2.0",
+    "csw": "http://www.opengis.net/cat/csw/2.0.2",
+}

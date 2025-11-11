@@ -5,6 +5,12 @@ from lxml import etree
 from eulxml import xmlmap
 
 
+def  get_root():
+    root = etree.getroot()
+    print(root.tag, ": ", root)
+
+
+# old stuff; maybe check again ...
 def parse_wms_capabilities(xml_file_path):
     print("inside parse_wms_capabilities")
     tree = etree.parse(xml_file_path)
@@ -33,12 +39,12 @@ def parse_wms_capabilities(xml_file_path):
         title = service_elem.findtext('wms:Title', default='', namespaces=nsmap)
         abstract = service_elem.findtext('wms:Abstract', default='', namespaces=nsmap)
 
-        # create json for service
+        """# create json for service
         service_elements[name] = {
             'name': name,
             'title': title,
             'abstract': abstract
-        }
+        }"""
 
     # start: /WMS_Capabilities/Service
     top_service_element = root.find('.//wms:Service', namespaces=nsmap)
@@ -82,4 +88,3 @@ print('SERVICE:')
 print(s)
 print('LAYER:')
 print(l)
-
