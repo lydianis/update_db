@@ -3,13 +3,38 @@
 About
 {% endblock %}
 {% block content %}
-<p>WebMapService</p>
+{% load update_app_tags %}
+<h2>WebMapService</h2>
 <p>Old WebMapService: {{ xml_file_1 }} </p>
 <p>New WebMapService: {{ xml_file_2 }} </p>
-<p>Differences:</p>
-{{ edit_file }}
 
-<p>Vergleich: {{ wms1_service }} vs. {{ wms2_service }}  </p>
+<h3>Check for Service Type and Version</h3>
+{% if not check %}
+  <p>Service Type or Version does not match; update is not possible. </p>
+{% else %}
+  <p>Service Type and Version match.</p>
+  {% if not edit_file %}
+    <p>There are no differences!</p>
+  {% else %}
+    <p>There are differences; an update is needed!</p>
+    <p>Differences:</p>
+    {{ edit_file }}
+  {% endif %}
+{% endif %}
+
+
+<p>Comparison: {{ wms1_service.text }} vs. {{ wms2_service.text }}  </p>
+
+<h3>Service Part: Differences</h3>
+<ul>
+  {% for element in service_part_diff %}
+    {% with element.tag|split:':' as elements %}
+    <li>{{ elements }} – {{ element.text }}</li>
+    {% endwith %}
+  {% empty %}
+    <p>There are no differences in the Service Part</p>
+  {% endfor %}
+</ul>
 
 <h2>Neue Layer (in {{ wms2.name }})</h2>
 <ul>

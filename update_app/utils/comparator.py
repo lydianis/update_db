@@ -3,7 +3,7 @@ from lxml import etree
 # from parser import parse_wms_capabilities
 # from models import Layer
 from django.db import transaction
-from helper import get_service_type, get_version, get_service_part
+from .helper import get_service_type, get_version, get_service_part
 
 xml_file_1 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0.xml'
 # xml_file_2 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_2.0.0.xml'
@@ -61,23 +61,6 @@ diff = compare_xml(xml_file_1, xml_file_2)
 print(diff)
 service_part_diff = compare_service_part(xml_file_1, xml_file_2)
 for elem in service_part_diff:
-    print(elem.tag, ": ", elem.text)
+    local_name = etree.QName(elem.tag).localname
+    print(local_name, ": ", elem.text)
 
-
-
-"""
-def compare_lxml_tree():
-    tree1 = etree.parse(xml_file_1)
-    tree2 = etree.parse(xml_file_2)
-
-    edit_file = main.diff_trees(tree1, tree2)
-    if edit_file:
-        print("update needed")
-    else:
-        print("ok")
-
-    return edit_file
-
-tree_diff = compare_lxml_tree()
-print(tree_diff)
-"""

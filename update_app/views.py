@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from update_app.models import WebMapService, WebFeatureService
 from update_app.services import WebMapServiceComparator, parse_wms_file, compare_parsed_wms, import_wms_to_db
 from .utils.parser import parse_wms_capabilities
-from .utils import comparator, parser
+from .utils import comparator, helper, parser
 from .utils.foo_service import parse_foo
 from django.views import View
 from django.views.generic import TemplateView, DetailView, FormView
@@ -53,8 +53,15 @@ class WebMapServiceView(TemplateView):
 
         edit_file = comparator.compare_xml(xml_file_1, xml_file_2)
 
-        service1, layers1 = parse_wms_capabilities(xml_file_1)
-        service2, layers2 = parse_wms_capabilities(xml_file_2)
+        # service1, layers1 = parse_wms_capabilities(xml_file_1)
+        # service2, layers2 = parse_wms_capabilities(xml_file_2)
+        service1 = helper.get_service_part(xml_file_1)[0]
+        service2 = helper.get_service_part(xml_file_2)[0]
+
+        check = comparator.check_service(xml_file_1, xml_file_2)
+        diff = comparator.compare_xml(xml_file_1, xml_file_2)
+        service_part_diff = comparator.compare_service_part(xml_file_1, xml_file_2)
+
 
         context = { 
             "xml_file_1": xml_file_1,
@@ -62,6 +69,9 @@ class WebMapServiceView(TemplateView):
             "edit_file": edit_file,
             "wms1_service": service1,
             "wms2_service": service2,
+            "check": check,
+            "diff": diff,
+            "service_part_diff": service_part_diff
         }
 
         return render(request, "update_app/wms.html", context)
