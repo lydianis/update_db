@@ -23,18 +23,22 @@ About
 {% endif %}
 
 
-<p>Comparison: {{ wms1_service.text }} vs. {{ wms2_service.text }}  </p>
-
 <h3>Service Part: Differences</h3>
 <ul>
   {% for element in service_part_diff %}
-    {% with element.tag|split:':' as elements %}
-    <li>{{ elements }} – {{ element.text }}</li>
+    {% with element.tag|split:'&#125;' as elem %}
+    <li>{{ elem }} – {{ element.text }}</li>
     {% endwith %}
   {% empty %}
     <p>There are no differences in the Service Part</p>
   {% endfor %}
 </ul>
+
+<h3>Layers in DB:</h3>
+
+
+<h3>Layers from new WMS</h3>
+
 
 <h2>Neue Layer (in {{ wms2.name }})</h2>
 <ul>

@@ -180,9 +180,10 @@
         <Layer>
             <Title>node1.1.1</Title>
             <Name>node1.1.1</Name>
+            <Abstract>This is the abstract of node1.1.1!</Abstract>
         </Layer>
         <Layer>
-            <Title>node1.1.2</Title>
+            <Title>node1.1.7</Title>
             <Name>node1.1.2</Name>
         </Layer>
         <Layer>
@@ -199,6 +200,10 @@
             <Layer>
                 <Title>node1.3.1</Title>
                 <Name>node1.3.1</Name>
+            </Layer>
+            <Layer>
+                <Title>node1.3.2</Title>
+                <Name>node1.3.2</Name>
             </Layer>
         </Layer>
       </Layer>

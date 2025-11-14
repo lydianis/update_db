@@ -130,7 +130,7 @@ class WebMapService(models.Model):
     
 
 class Layer(MPTTModel):
-    """Model for single WMS Layers"""
+    """Model for single WMS Layer"""
     name = models.CharField(max_length=200, unique=True)
     WebMapService = models.ForeignKey(
         to=WebMapService,

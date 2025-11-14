@@ -54,9 +54,30 @@ def get_service_part(xml_file):
     return elements
     
 
+def get_layers_from_db(wms):
+    pass
+
+def get_layers_from_xml(xmlfile):
+    print("inside get_layers_from_xml")
+    service = etree.parse(xml_file)
+    service_root = service.getroot()
+    layer_root = service_root.xpath("//wms:Capability/wms:Layer[1]", namespaces=ns)
+    print(layer_root)
+    # print("ROOT_LAYER: ", layer_root.tag, ", ", layer_root.text)
+    wms_layers = service_root.xpath("//wms:Layer/descendant::*", namespaces=ns)
+    layers = []
+    for element in wms_layers:
+        element.tag = etree.QName(element).localname
+        if element.tag == "Layer":
+            pass
+        
+    return layers
+
 # for TESTING only
 xml_file = "/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0.xml"
 print("ServiceType: ", get_service_type(xml_file))
 print("Version: ", get_version(xml_file))
 elements = get_service_part(xml_file)
-print(elements)
+# print(elements)
+layers = get_layers_from_xml(xml_file)
+print(layers)
