@@ -63,14 +63,17 @@ def compare_layers(wms, xml_file2):
     # get layers for both capability files
     layers1 = get_layers_from_db(wms)
     layers2 = get_layers_from_xml(xml_file2)
-    pass
+    # print(layers2)
+    return layers2
 
 # for TESTING only:
 check = check_service(xml_file_1, xml_file_2)
 diff = compare_xml(xml_file_1, xml_file_2)
-print(diff)
+# print(diff)
 service_part_diff = compare_service_part(xml_file_1, xml_file_2)
-for elem in service_part_diff:
+# for elem in service_part_diff:
     # local_name = etree.QName(elem.tag).localname
     # print(local_name, ": ", elem.text)
-    print(elem.tag, ": ", elem.text)
+    # print(elem.tag, ": ", elem.text)
+l = get_layers_from_xml(xml_file_2)
+# print(l)

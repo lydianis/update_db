@@ -128,6 +128,24 @@ class WebMapService(models.Model):
         return self.title
     
     
+class TransientLayer(MPTTModel):
+    """Model for Layer from xml file before it is persisted"""
+    name = models.CharField(max_length=200, unique=True)
+    title: str = models.CharField(max_length=1000,
+                                  verbose_name=("title"),
+                                  help_text=(
+                                      "a short descriptive title for this metadata"),
+                                  default="")
+    abstract = models.TextField(verbose_name=("abstract"),
+                                help_text=(
+                                    "brief summary of the content of this metadata."),
+                                blank=True,
+                                default="")
+    parent = TreeForeignKey('self',
+                            on_delete=models.CASCADE,
+                            null=True,
+                            blank=True,
+                            related_name='children')
 
 class Layer(MPTTModel):
     """Model for single WMS Layer"""
@@ -135,7 +153,6 @@ class Layer(MPTTModel):
     WebMapService = models.ForeignKey(
         to=WebMapService,
         on_delete=models.CASCADE,
-        editable=False,
         verbose_name="service",
         help_text="the WMS where this layer is part of",
     )

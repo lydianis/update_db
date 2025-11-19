@@ -1,4 +1,6 @@
 from lxml import etree
+from update_app.models import TransientLayer, Layer
+
 
 # Defines xml namespaces used for xml parsing and creating
 ns = {
@@ -54,24 +56,44 @@ def get_service_part(xml_file):
     return elements
     
 
-def get_layers_from_db(wms):
-    pass
+def get_layers_from_db(wms_id):
+    print("inside get_layers_from_db")
+    layer_list = Layer.objects.filter(WebMapService=wms_id)
+    return layer_list
+    
 
 def get_layers_from_xml(xmlfile):
     print("inside get_layers_from_xml")
     service = etree.parse(xml_file)
     service_root = service.getroot()
     layer_root = service_root.xpath("//wms:Capability/wms:Layer[1]", namespaces=ns)
-    print(layer_root)
+    print("Layer-Root: ", layer_root)
     # print("ROOT_LAYER: ", layer_root.tag, ", ", layer_root.text)
     wms_layers = service_root.xpath("//wms:Layer/descendant::*", namespaces=ns)
     layers = []
+    counter = 1
+    tl = TransientLayer()
     for element in wms_layers:
         element.tag = etree.QName(element).localname
+                
         if element.tag == "Layer":
-            pass
+            tl.lft = counter
+            counter += 1
         
+        if element.tag == "Name":
+            tl.name = element.text
+        elif element.tag == "Title":
+            tl.title = element.text
+        elif element.tag == "Abstract":
+            tl.abstract = element.text
+        else:
+            tl = TransientLayer()
+            continue
+        layers.append(tl)
+            
     return layers
+
+
 
 # for TESTING only
 xml_file = "/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0.xml"
@@ -80,4 +102,5 @@ print("Version: ", get_version(xml_file))
 elements = get_service_part(xml_file)
 # print(elements)
 layers = get_layers_from_xml(xml_file)
-print(layers)
+for l in layers:
+    print("Layers: ", l.name, "; ", l.title, ", ", l.abstract)

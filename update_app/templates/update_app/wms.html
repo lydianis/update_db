@@ -35,10 +35,22 @@ About
 </ul>
 
 <h3>Layers in DB:</h3>
-
+<ul>
+  {% for layer in layer_db_1 %}
+    <li>{{ layer.name }} – {{ layer.title }}</li>
+  {% empty %}
+    <li>Keine Layer in der Datenbank</li>
+  {% endfor %}
+</ul>
 
 <h3>Layers from new WMS</h3>
-
+<ul>
+  {% for layer in layer_xml_2 %}
+    <li>{{ layer.name }} – {{ layer.title }}</li>
+  {% empty %}
+    <li>Keine Layer im neuen WMS</li>
+  {% endfor %}
+</ul>
 
 <h2>Neue Layer (in {{ wms2.name }})</h2>
 <ul>
