@@ -68,6 +68,7 @@ class WebMapServiceView(TemplateView):
         layer_db_1 = helper.get_layers_from_db(service1_id)
         # layer_xml_2 = helper.get_layers_from_xml(xml_file_2)
         layer_xml_2 = parser.parse_wms_capabilities(xml_file_2)[1]
+        print("LAYER XML 2: ", layer_xml_2)
         
         context = { 
             "xml_file_1": xml_file_1,

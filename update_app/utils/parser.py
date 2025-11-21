@@ -59,8 +59,8 @@ def parse_wms_capabilities(xml_file_path):
     counter = 0
     
     def parse_layer(layer_elem):
-        print("inside parse_layer")
-        global counter
+        # print("inside parse_layer")
+        nonlocal counter
         counter += 1
         # name_elem = layer_elem.find('wms:Name', namespaces=nsmap)
         # name = name_elem.text
@@ -68,7 +68,7 @@ def parse_wms_capabilities(xml_file_path):
         title = layer_elem.findtext('wms:Title', default='', namespaces=nsmap)
         abstract = layer_elem.findtext('wms:Abstract', default='', namespaces=nsmap)
         left = counter
-        print("LEFT: ", left)
+        # print("LEFT: ", left)
         # parent = layer_elem.get('parent')
         
         # create json for layer
@@ -86,7 +86,7 @@ def parse_wms_capabilities(xml_file_path):
             parse_layer(sub)
         counter += 1
         layers[name]['rght'] = counter
-        print("RIGHT: ", counter)   
+        # print("LAYER: ", layers[name], ", " ,layers[name]['rght'])   
             
 
     # start: /WMS_Capabilities/Capability/Layer
