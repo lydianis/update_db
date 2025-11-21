@@ -55,10 +55,14 @@ def get_service_part(xml_file):
         # print(element.tag, ": ", element.text)
     return elements
     
+def get_service_id():
+    pass
 
 def get_layers_from_db(wms_id):
     print("inside get_layers_from_db")
-    layer_list = Layer.objects.filter(WebMapService=wms_id)
+    # layer_list = Layer.objects.filter(WebMapService=wms_id)
+    layer_list = Layer.objects.all().filter(WebMapService_id=wms_id)
+    print(layer_list)
     return layer_list
     
 

@@ -2,10 +2,10 @@ import os
 # from ...update_db.settings import BASE_DIR
 # from django.conf import settings
 from lxml import etree
-from eulxml import xmlmap
+# from eulxml import xmlmap
 
 
-def  get_root():
+def get_root():
     root = etree.getroot()
     print(root.tag, ": ", root)
 
@@ -39,12 +39,12 @@ def parse_wms_capabilities(xml_file_path):
         title = service_elem.findtext('wms:Title', default='', namespaces=nsmap)
         abstract = service_elem.findtext('wms:Abstract', default='', namespaces=nsmap)
 
-        """# create json for service
+        # create json for service
         service_elements[name] = {
             'name': name,
             'title': title,
             'abstract': abstract
-        }"""
+        }
 
     # start: /WMS_Capabilities/Service
     top_service_element = root.find('.//wms:Service', namespaces=nsmap)
@@ -56,25 +56,38 @@ def parse_wms_capabilities(xml_file_path):
     print(top_layer)
 
     layers = {}
-
+    counter = 0
+    
     def parse_layer(layer_elem):
-        name_elem = layer_elem.find('wms:Name', namespaces=nsmap)
-
-        name = name_elem.text
+        print("inside parse_layer")
+        global counter
+        counter += 1
+        # name_elem = layer_elem.find('wms:Name', namespaces=nsmap)
+        # name = name_elem.text
+        name = layer_elem.findtext('wms:Name', default='', namespaces=nsmap)
         title = layer_elem.findtext('wms:Title', default='', namespaces=nsmap)
         abstract = layer_elem.findtext('wms:Abstract', default='', namespaces=nsmap)
-
+        left = counter
+        print("LEFT: ", left)
+        # parent = layer_elem.get('parent')
+        
         # create json for layer
         layers[name] = {
             'name': name,
             'title': title,
-            'abstract': abstract
+            'abstract': abstract,
+            'lft': left,
+            # 'parent': parent,
         }
-
+        
         # recursive walk through sublayer
         sublayers = layer_elem.findall('wms:Layer', namespaces=nsmap)
         for sub in sublayers:
             parse_layer(sub)
+        counter += 1
+        layers[name]['rght'] = counter
+        print("RIGHT: ", counter)   
+            
 
     # start: /WMS_Capabilities/Capability/Layer
     top_layer = root.find('.//wms:Capability/wms:Layer', namespaces=nsmap)

@@ -11,6 +11,7 @@ from .forms import WMSUploadForm
 from django.template import loader
 from pathlib import Path
 import requests
+# import json
 
 
 PROXIES ={
@@ -63,11 +64,11 @@ class WebMapServiceView(TemplateView):
         service_part_diff = comparator.compare_service_part(xml_file_1, xml_file_2)
         
         # service1_id = WebMapService.objects.get(name=service1.findtext('wms:Name', default='', namespaces=helper.ns)).id
-        service1_id = 1  # for testing only
-        print("SERVICE1_ID: ", service1_id)
+        service1_id = 3  # for testing only, later this will be "self"
         layer_db_1 = helper.get_layers_from_db(service1_id)
-        layer_xml_2 = helper.get_layers_from_xml(xml_file_2)
-
+        # layer_xml_2 = helper.get_layers_from_xml(xml_file_2)
+        layer_xml_2 = parser.parse_wms_capabilities(xml_file_2)[1]
+        
         context = { 
             "xml_file_1": xml_file_1,
             "xml_file_2": xml_file_2,

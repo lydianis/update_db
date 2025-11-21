@@ -37,7 +37,7 @@ About
 <h3>Layers in DB:</h3>
 <ul>
   {% for layer in layer_db_1 %}
-    <li>{{ layer.name }} – {{ layer.title }}</li>
+    <li>{{ layer.name }} –  Title: {{ layer.title }}; Parent: {{ layer.parent }}, Left: {{ layer.lft }}, Right: {{ layer.rght }}   </li>
   {% empty %}
     <li>Keine Layer in der Datenbank</li>
   {% endfor %}
@@ -46,7 +46,7 @@ About
 <h3>Layers from new WMS</h3>
 <ul>
   {% for layer in layer_xml_2 %}
-    <li>{{ layer.name }} – {{ layer.title }}</li>
+    <li>{{ layer.name }} – Name: {{ layer.name }}, Title: {{ layer.title }}; Parent: {{layer.parent}}, Left: {{layer.lft}}</li>
   {% empty %}
     <li>Keine Layer im neuen WMS</li>
   {% endfor %}
