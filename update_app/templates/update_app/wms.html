@@ -45,35 +45,35 @@ About
 
 <h3>Layers from new WMS</h3>
 <ul>
-  {% for layer in layer_xml_2 %}
-    <li>{{ layer.name }} – Name: {{ layer.name }}, Title: {{ layer.title }}; Left: {{layer.lft}}, Right: {{ layer.rght }} </li>
+  {% for layer, values in layer_xml_2.items %}
+    <li>{{ layer }} – Name: {{ values.name }}, Title: {{ values.title }}; Left: {{values.lft}}, Right: {{ values.rght }} </li>
   {% empty %}
     <li>Keine Layer im neuen WMS</li>
   {% endfor %}
 </ul>
 
-<h2>Neue Layer (in {{ wms2.name }})</h2>
+<h3>Entfernte Layer (aus {{ xml_name_1 }})</h3>
 <ul>
-  {% for layer in added_layers %}
-    <li>{{ layer.name }} – {{ layer.title }}</li>
-  {% empty %}
-    <li>Keine neuen Layer</li>
-  {% endfor %}
-</ul>
-
-<h2>Entfernte Layer (aus {{ wms1.name }})</h2>
-<ul>
-  {% for layer in removed_layers %}
-    <li>{{ layer.name }} – {{ layer.title }}</li>
+  {% for layer in layer_del %}
+    <li>{{ layer.name }}</li>
   {% empty %}
     <li>Keine entfernten Layer</li>
   {% endfor %}
 </ul>
 
-<h2>Geänderte Layer</h2>
+<h3>Neue Layer (in {{ xml_name_2 }})</h3>
 <ul>
-  {% for l1, l2 in changed_layers %}
-    <li>{{ l1.name }}: "{{ l1.title }}" → "{{ l2.title }}"</li>
+  {% for layer in layer_new %}
+    <li>{{ layer }}</li>
+  {% empty %}
+    <li>Keine neuen Layer</li>
+  {% endfor %}
+</ul>
+
+<h3>Geänderte Layer</h3>
+<ul>
+  {% for l1, l2 in layer_mod %}
+    <li>{{ l1.name }}: "{{ l1.title }}" → "{{ l2 }}"</li>
   {% empty %}
     <li>Keine Änderungen</li>
   {% endfor %}

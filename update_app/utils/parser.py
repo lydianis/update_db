@@ -7,12 +7,13 @@ from lxml import etree
 
 def get_root():
     root = etree.getroot()
-    print(root.tag, ": ", root)
+    # print(root.tag, ": ", root)
+    return root
 
 
 # old stuff; maybe check again ...
 def parse_wms_capabilities(xml_file_path):
-    print("inside parse_wms_capabilities")
+    # print("inside parse_wms_capabilities")
     tree = etree.parse(xml_file_path)
     root = tree.getroot()
     nsmap = root.nsmap
@@ -28,7 +29,7 @@ def parse_wms_capabilities(xml_file_path):
 
     # SERVICE
     top_element = root.xpath('//wms:Service', namespaces=nsmap)
-    print(top_element)
+    # print(top_element)
 
     service_elements = {}
 
@@ -53,7 +54,7 @@ def parse_wms_capabilities(xml_file_path):
 
     # LAYER
     top_layer = root.xpath('//wms:Capability/wms:Layer', namespaces=nsmap)
-    print(top_layer)
+    # print(top_layer)
 
     layers = {}
     counter = 0

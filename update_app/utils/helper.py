@@ -56,22 +56,22 @@ def get_service_part(xml_file):
     return elements
     
 def get_service_id():
+    # get WMS id from database based on service name from capabilities document
     pass
 
 def get_layers_from_db(wms_id):
-    print("inside get_layers_from_db")
-    # layer_list = Layer.objects.filter(WebMapService=wms_id)
+    # print("inside get_layers_from_db")
     layer_list = Layer.objects.all().filter(WebMapService_id=wms_id)
-    print(layer_list)
+    # print(layer_list)
     return layer_list
     
 
 def get_layers_from_xml(xmlfile):
-    print("inside get_layers_from_xml")
+    # print("inside get_layers_from_xml")
     service = etree.parse(xml_file)
     service_root = service.getroot()
     layer_root = service_root.xpath("//wms:Capability/wms:Layer[1]", namespaces=ns)
-    print("Layer-Root: ", layer_root)
+    # print("Layer-Root: ", layer_root)
     # print("ROOT_LAYER: ", layer_root.tag, ", ", layer_root.text)
     wms_layers = service_root.xpath("//wms:Layer/descendant::*", namespaces=ns)
     layers = []
