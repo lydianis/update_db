@@ -1,0 +1,20 @@
+{% extends "update_app/layout.html" %}
+{% block title %}Service Update Result{% endblock %}
+{% block content %}
+<h2>Service Update Ergebnis</h2>
+<p>XML: {{ xml_file }}</p>
+{% if changes %}
+  <p>Folgende Felder wurden geändert:</p>
+  <ul>
+    {% for c in changes %}
+      <li><strong>{{ c.field }}</strong>: "{{ c.old }}" → "{{ c.new }}"</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Keine Änderungen am Service festgestellt.</p>
+{% endif %}
+
+<p>
+  <a href="{% url 'wms' %}">Zurück zur WMS-Übersicht</a>
+</p>
+{% endblock %}

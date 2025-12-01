@@ -1,6 +1,5 @@
 from xmldiff import main
 from lxml import etree
-# from parser import parse_wms_capabilities
 # from models import Layer
 from django.db import transaction
 from .helper import get_service_type, get_version, get_service_part
@@ -119,7 +118,7 @@ def compare_layers(wms, xml_file2):
                 title = l2[1]['title']
                 abstract = l2[1]['abstract']
                 if l1.title != title:
-                    layers_mod.append((l1, l2))
+                    layers_mod.append((l1, l2[1]))
                     print("Layer modified: ", l1.name, " title: ", l1.title, " -> ", title)
                 if l1.abstract != abstract:
                     layers_mod.append((l1, l2))

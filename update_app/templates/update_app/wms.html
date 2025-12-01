@@ -73,17 +73,18 @@ About
 <h3>Geänderte Layer</h3>
 <ul>
   {% for l1, l2 in layer_mod %}
-    <li>{{ l1.name }}: "{{ l1.title }}" → "{{ l2 }}"</li>
+    <li>{{ l1.name }}: "{{ l1.title }}" → "{{ l2.title }}"</li>
   {% empty %}
     <li>Keine Änderungen</li>
   {% endfor %}
 </ul>
 
-<form method="get">
-  <input type="hidden" name="wms1" value="{{ wms1.id }}">
-  <input type="hidden" name="wms2" value="{{ wms2.id }}">
-  <input type="hidden" name="sync" value="1">
-  <button type="submit">Synchronisieren</button>
-</form>
+<a href="{% url 'update_service' 3 %}">
+  <button type="submit">Service-Update</button>
+</a>
+
+<a href="{% url 'reset_database' %}">
+  <button type="submit">Reset Datenbank</button>
+</a>
 
 {% endblock %}

@@ -21,7 +21,7 @@ def parse_wms_capabilities(xml_file_path):
         nsmap['wms'] = nsmap.pop(None)
 
     """
-    ns ={
+    ns = {
         'wms': 'http://www.opengis.net/wms',
         'xlink': 'http://www.w3.org/1999/xlink',
     }
@@ -87,7 +87,7 @@ def parse_wms_capabilities(xml_file_path):
             parse_layer(sub)
         counter += 1
         layers[name]['rght'] = counter
-        # print("LAYER: ", layers[name], ", " ,layers[name]['rght'])   
+        # print("LAYER: ", layers[name], ", " ,layers[name]['rght'])
             
 
     # start: /WMS_Capabilities/Capability/Layer

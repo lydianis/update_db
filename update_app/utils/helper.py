@@ -90,6 +90,8 @@ def get_layers_from_xml(xmlfile):
             tl.title = element.text
         elif element.tag == "Abstract":
             tl.abstract = element.text
+        
+
         else:
             tl = TransientLayer()
             continue
