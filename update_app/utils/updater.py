@@ -73,9 +73,50 @@ def update_service_part(wms, xml_file_new):
     wms_obj.save()
     return wms_obj
 
+@transaction.atomic
+def update_layers(wms, xml_file_new):
+    """Update layers for a stored WebMapService from a new capabilities XML.
 
-def update_layers():
-    # placeholder: implementation depends on chosen synchronization strategy
-    pass
+    Args:
+        wms: either a WebMapService instance or its PK (int).
+        xml_file_new: path to the new WMS capabilities XML file.
+
+    Behaviour:
+        - parses the <Capability> part of the capabilities document
+        - maps layer elements to fields on the WebMapService model
+        - saves the WebMapService instance
+    """
+    # resolve instance
+    if isinstance(wms, WebMapService):
+        wms_obj = wms
+    else:
+        wms_obj = WebMapService.objects.get(pk=wms)
+    
+    # get the list of service elements (lxml Elements)
+    layers = get_layers_from_xml(xml_file_new)
+    
+
+    # helper to get localname
+    def localname(layer):
+        return etree.QName(layer).localname
+    
+    # iterate and map values
+    for layer in layers:
+        tag = localname(layer)
+        text = layer.text or ''
+
+        if tag == 'Name':
+            # layer name 
+            wms_obj.name = text
+        elif tag == 'Title':
+            wms_obj.title = text
+        elif tag == 'Abstract':
+            wms_obj.abstract = text
+        # further layer fields can be mapped here
+    
+    # persist changes
+    wms_obj.save()
+    return wms_obj
+    
 
 

@@ -123,11 +123,12 @@ def compare_layers(wms, xml_file2):
                 if l1.abstract != abstract:
                     layers_mod.append((l1, l2))
                     print("Layer modified: ", l1.name, " abstract: ", l1.abstract, " -> ", abstract)
-                """
-                if l1.lft != l2.lft:
+                
+                if l1.lft != l2[1].get('lft'):
                     layers_pos.append((l1, l2))
-                    print("Layer position changed: ", l1.name, " position: ", l1.lft, " -> ", l2.lft)
-                """
+                    print("Layer position changed: ", l1.name, " left position: ", l1.lft, " -> ", l2[1]['lft']) 
+                    print("                                  right position: ", l1.rght, " -> ", l2[1]['rght']) 
+                
                 pass
 
         

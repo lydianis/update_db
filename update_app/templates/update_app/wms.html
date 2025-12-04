@@ -10,7 +10,7 @@ About
 
 <h3>Check for Service Type and Version</h3>
 {% if not check %}
-  <p>Service Type or Version does not match; update is not possible. </p>
+  <p>Service Type or Version does not match; update is not possible.</p>
 {% else %}
   <p>Service Type and Version match.</p>
   {% if not edit_file %}
@@ -34,7 +34,7 @@ About
   {% endfor %}
 </ul>
 
-<h3>Layers in DB:</h3>
+<h3>Layers in DB</h3>
 <ul>
   {% for layer in layer_db_1 %}
     <li>{{ layer.name }} –  Title: {{ layer.title }}; Parent: {{ layer.parent }}, Left: {{ layer.lft }}, Right: {{ layer.rght }}   </li>
@@ -81,6 +81,10 @@ About
 
 <a href="{% url 'update_service' 3 %}">
   <button type="submit">Service-Update</button>
+</a>
+
+<a href="{% url 'update_layer' 3 %}">
+  <button type="submit">Layer-Update</button>
 </a>
 
 <a href="{% url 'reset_database' %}">

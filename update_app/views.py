@@ -11,7 +11,7 @@ from .forms import WMSUploadForm
 from django.template import loader
 from pathlib import Path
 from update_app.utils.reset import reset_db
-from update_app.utils.updater import update_service_part
+from update_app.utils.updater import update_service_part, update_layers
 
 
 import requests
@@ -93,6 +93,56 @@ def update_service(request, wms_id=None):
     }
 
     return render(request, 'update_app/service_update_result.html', context)
+
+def update_layer_tree(request, wms_id=None):
+    """View to update layer data from a new capabilities XML and show changes.
+
+    Usage:
+      /wms/update/<wms_id>/?xml=/path/to/file.xml
+
+    If no xml param is provided, uses the test fixture `fixture_1.3.0_modified.xml`.
+    """
+    from update_app.models import WebMapService
+    from pathlib import Path
+
+    # resolve WMS id (fallback to 3 for local testing if not provided)
+    if wms_id is None:
+        wms_id = request.GET.get('wms_id') or 3
+
+    wms_obj = get_object_or_404(WebMapService, pk=wms_id)
+
+    # xml file to use
+    xml_file = request.GET.get('xml')
+    if not xml_file:
+        base = Path(__file__).resolve().parent / 'files'
+        xml_file = str(base / 'fixture_1.3.0_modified.xml')
+
+    # record old values for fields we care about
+    fields = [
+        'name', 'title', 'abstract'
+    ]
+    old_values = {f: getattr(wms_obj, f, '') for f in fields}
+
+    # perform update
+    updated = update_service_part(wms_obj, xml_file)
+
+    # compute changed fields
+    changes = []
+    for f in fields:
+        old = old_values.get(f) or ''
+        new = getattr(updated, f) or ''
+        if str(old) != str(new):
+            changes.append({'field': f, 'old': old, 'new': new})
+
+    context = {
+        'wms_id': wms_id,
+        'wms': updated,
+        'xml_file': xml_file,
+        'changes': changes,
+    }
+
+    return render(request, 'update_app/layer_update_result.html', context)
+
 
 class FooView(TemplateView):
     # template_name = "update_app/foo_c.html"
