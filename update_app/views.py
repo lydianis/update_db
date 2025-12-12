@@ -161,7 +161,9 @@ class WebMapServiceView(TemplateView):
 
         xml_file_1 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0.xml'
         # TODO: xml_file_1 should be the one persisted for the service in the DB
-        xml_file_2 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0_modified.xml'
+        # xml_file_2 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0_modified.xml'
+        xml_file_2 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0_hashtest.xml'
+
 
         xml_name_1 = Path(xml_file_1).name
         xml_name_2 = Path(xml_file_2).name

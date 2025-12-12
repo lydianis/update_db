@@ -100,6 +100,11 @@ def get_layers_from_xml(xmlfile):
     return layers
 
 
+def hash_xml(xml_file_path):
+    # create hash value from xml file for comparison
+    with open(xml_file_path, 'rb') as f:
+        return hash(f.read())
+
 
 # for TESTING only
 xml_file = "/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0.xml"

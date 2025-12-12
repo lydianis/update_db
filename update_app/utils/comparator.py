@@ -8,7 +8,9 @@ from .parser import parse_wms_capabilities
 
 xml_file_1 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0.xml'
 # xml_file_2 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_2.0.0.xml'
-xml_file_2 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0_modified.xml'
+# xml_file_2 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0_modified.xml'
+xml_file_2 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0_hashtest.xml'
+
 
 def check_service(xml_file_1, xml_file_2):
     # check whether both xml files have the same service type and version; maybe move to helper?
@@ -32,19 +34,41 @@ def check_service(xml_file_1, xml_file_2):
 
 
 def compare_xml(xml_file_1, xml_file_2):
-    # compares two xml files using xmldiff
+    # version1: compares two xml files using xmldiff
     """
     Args: xml_file_1: "old" capabilities document from the database
           xml_file_2: "new" capabilities document for update
 
     Returns: edit_file: list of differences between both files
-    """
+    
     edit_file = main.diff_files(xml_file_1, xml_file_2)
     # for TESTING only
     if edit_file:
         print("update needed")
     else:
         print("ok")
+    """
+    #version2: own implementation using hashes
+    """
+    Args: xml_file_1: "old" capabilities document from the database
+          xml_file_2: "new" capabilities document for update
+
+    Returns: edit_file: for simplicity: True or False
+    """
+    def hash_xml(xml_file):
+    # create hash value from xml file for comparison
+        with open(xml_file, 'rb') as f:
+            return hash(f.read())
+    
+    h1 = hash_xml(xml_file_1)
+    h2 = hash_xml(xml_file_2)
+    if h1 == h2:
+        print("same")
+        edit_file = False
+    else:
+        print("different")
+        edit_file = True
+
     return edit_file
 
 
