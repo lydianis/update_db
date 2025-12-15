@@ -8,8 +8,8 @@ from .parser import parse_wms_capabilities
 
 xml_file_1 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0.xml'
 # xml_file_2 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_2.0.0.xml'
-# xml_file_2 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0_modified.xml'
-xml_file_2 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0_hashtest.xml'
+xml_file_2 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0_modified.xml'
+# xml_file_2 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0_hashtest.xml'
 
 
 def check_service(xml_file_1, xml_file_2):
