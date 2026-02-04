@@ -166,6 +166,7 @@ class Layer(MPTTModel):
                                     "brief summary of the content of this metadata."),
                                 blank=True,
                                 default="")
+    # TODO: add keywords field
 
     parent = TreeForeignKey('self',
                             on_delete=models.CASCADE,
