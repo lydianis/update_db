@@ -56,6 +56,7 @@ def parse_wms_capabilities(xml_file_path):
     top_layer = root.xpath('//wms:Capability/wms:Layer', namespaces=nsmap)
     # print(top_layer)
 
+
     layers = {}
     counter = 0
     
@@ -97,7 +98,7 @@ def parse_wms_capabilities(xml_file_path):
 
     return service_elements, layers
 
-s, l = parse_wms_capabilities('/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0.xml')
+s, l = parse_wms_capabilities('/home/nisius/python/update_db/update_app/files/fixture_1.3.0.xml')
 print('SERVICE:')
 print(s)
 print('LAYER:')

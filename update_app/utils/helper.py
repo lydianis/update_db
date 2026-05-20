@@ -34,6 +34,7 @@ def get_service_type(xml_file):
     service = etree.parse(xml_file)
     service_root = service.getroot()
     service_type = service_root[0][0].text
+    print("Service Type: ", service_type)
     return service_type
 
 
@@ -48,7 +49,13 @@ def get_service_part(xml_file):
     # print("inside get_service_part")
     service = etree.parse(xml_file)
     service_root = service.getroot()
-    service_elements = service_root.xpath("//wms:Service/descendant::*", namespaces=ns)
+    if get_service_type(xml_file) == 'WMS':
+        service_elements = service_root.xpath("//wms:Service/descendant::*", namespaces=ns)
+    elif get_service_type(xml_file) == 'WFS':
+        print("WFS geht noch nicht ;-)")
+        service_elements = service_root.xpath("//wfs:Service/descendant::*", namespaces=ns)
+    else:
+        print("Service Type not known!")
     elements = [] 
     for element in service_elements:
         elements.append(element)
@@ -65,7 +72,6 @@ def get_layers_from_db(wms_id):
     # print(layer_list)
     return layer_list
     
-
 def get_layers_from_xml(xmlfile):
     # print("inside get_layers_from_xml")
     service = etree.parse(xml_file)
@@ -107,7 +113,7 @@ def hash_xml(xml_file_path):
 
 
 # for TESTING only
-xml_file = "/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0.xml"
+xml_file = "/home/nisius/python/update_db/update_app/files/fixture_1.3.0.xml"
 print("ServiceType: ", get_service_type(xml_file))
 print("Version: ", get_version(xml_file))
 elements = get_service_part(xml_file)

@@ -6,10 +6,10 @@ from .helper import get_service_type, get_version, get_service_part
 from .helper import get_layers_from_db, get_layers_from_xml
 from .parser import parse_wms_capabilities
 
-xml_file_1 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0.xml'
-# xml_file_2 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_2.0.0.xml'
-xml_file_2 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0_modified.xml'
-# xml_file_2 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0_hashtest.xml'
+xml_file_1 = '/home/nisius/python/update_db/update_app/files/fixture_1.3.0.xml'
+# xml_file_2 = '/home/nisius/python/update_db/update_app/files/fixture_2.0.0.xml'
+xml_file_2 = '/home/nisius/python/update_db/update_app/files/fixture_1.3.0_modified.xml'
+# xml_file_2 = '/home/nisius/python/update_db/update_app/files/fixture_1.3.0_hashtest.xml'
 
 
 def check_service(xml_file_1, xml_file_2):
@@ -19,7 +19,7 @@ def check_service(xml_file_1, xml_file_2):
           xml_file_2: "new" capabilities document for update
     
     Returns: True, if service type is the same
-             False if service type is different
+             False, if service type is different
     """
     if get_service_type(xml_file_1) == get_service_type(xml_file_2):
         print("service types match")

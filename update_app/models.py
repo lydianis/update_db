@@ -147,6 +147,9 @@ class TransientLayer(MPTTModel):
                             blank=True,
                             related_name='children')
 
+class Keyword(models.Model):
+    pass
+
 class Layer(MPTTModel):
     """Model for single WMS Layer"""
     name = models.CharField(max_length=200, unique=True)
@@ -167,7 +170,14 @@ class Layer(MPTTModel):
                                 blank=True,
                                 default="")
     # TODO: add keywords field
-
+    """
+    keywords: str = models.CharField(max_length=500,
+                                verbose_name=("keywords"),
+                                null=True,
+                                blank=True,
+                                default="")
+"""
+                                
     parent = TreeForeignKey('self',
                             on_delete=models.CASCADE,
                             null=True,

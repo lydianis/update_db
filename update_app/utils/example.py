@@ -37,13 +37,13 @@ def hash_xml(xml_file):
     with open(xml_file, 'rb') as f:
         return hash(f.read())
 
-xml_file_path_1 = "/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0.xml"
+xml_file_path_1 = "/home/nisius/python/update_db/update_app/files/fixture_1.3.0.xml"
 parsed_xml_file_1 = etree.parse(xml_file_path_1)
 xml_file_1 = etree.tostring(parsed_xml_file_1)
 h1 = hash_xml(xml_file_path_1)
 print("HASH: ", h1)
 
-xml_file_path_2 = "/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0_hashtest.xml"
+xml_file_path_2 = "/home/nisius/python/update_db/update_app/files/fixture_1.3.0_hashtest.xml"
 parsed_xml_file_2 = etree.parse(xml_file_path_2)
 xml_file_2 = etree.tostring(parsed_xml_file_2)
 h2 = hash_xml(xml_file_path_2)

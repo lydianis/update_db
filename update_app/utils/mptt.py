@@ -102,7 +102,7 @@ class MPTT:
 
 
 # for TESTING only
-xml_file = "/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0.xml"
+xml_file = "/home/nisius/python/update_db/update_app/files/ixture_1.3.0.xml"
 service = etree.parse(xml_file)
 strtree = etree.tostring(service)
 root = etree.fromstring(strtree)

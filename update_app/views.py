@@ -159,10 +159,10 @@ class WebMapServiceView(TemplateView):
     
     def get(self, request):
 
-        xml_file_1 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0.xml'
+        xml_file_1 = '/home/nisius/python/update_db/update_app/files/fixture_1.3.0.xml'
         # TODO: xml_file_1 should be the one persisted for the service in the DB
-        xml_file_2 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0_modified.xml'
-        # xml_file_2 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0_hashtest.xml'
+        xml_file_2 = '/home/nisius/python/update_db/update_app/files/fixture_1.3.0_modified.xml'
+        # xml_file_2 = '/home/nisius/python/update_db/update_app/files/fixture_1.3.0_hashtest.xml'
 
 
         xml_name_1 = Path(xml_file_1).name
@@ -231,8 +231,8 @@ class CompareWebMapServicesView(TemplateView):
         
         # wms1 = get_object_or_404(WebMapService, pk=wms1_id)
         # wms2 = get_object_or_404(WebMapService, pk=wms2_id)
-        xml_file_1 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0.xml'
-        xml_file_2 = '/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0_modified.xml'
+        xml_file_1 = '/home/nisius/python/update_db/update_app/files/fixture_1.3.0.xml'
+        xml_file_2 = '/home/nisius/python/update_db/update_app/files/fixture_1.3.0_modified.xml'
 
         wms1_file = parse_wms_file(xml_file_1)
         wms2_file = parse_wms_file(xml_file_2)
@@ -330,7 +330,63 @@ class WMSFileCompareView(FormView):
             "has_result": True,
         })
 
-class WebFeatureServiceView(View):
+# TODO: WMS Sachen rausnehmen und für WFS anpassen
+class WebFeatureServiceView(TemplateView):
+    """
     def get(self, request):
         print("WFS")
         return HttpResponse("result")
+        """
+    def get(self, request):
+        xml_file_1 = '/home/nisius/python/update_db/update_app/files/fixture_2.0.0.xml'
+        # TODO: xml_file_1 should be the one persisted for the service in the DB
+        xml_file_2 = '/home/nisius/python/update_db/update_app/files/fixture_2.0.0_modified.xml'
+        # xml_file_2 = '/home/nisius/python/update_db/update_app/files/fixture_1.3.0_hashtest.xml'
+
+
+        xml_name_1 = Path(xml_file_1).name
+        xml_name_2 = Path(xml_file_2).name
+
+        edit_file = comparator.compare_xml(xml_file_1, xml_file_2)
+
+        # service1, layers1 = parse_wms_capabilities(xml_file_1)
+        # service2, layers2 = parse_wms_capabilities(xml_file_2)
+        service1 = helper.get_service_part(xml_file_1)[0]
+        service2 = helper.get_service_part(xml_file_2)[0]
+
+        check = comparator.check_service(xml_file_1, xml_file_2)
+        diff = comparator.compare_xml(xml_file_1, xml_file_2)
+        service_part_diff = comparator.compare_service_part(xml_file_1, xml_file_2)
+        """
+        # service1_id = WebMapService.objects.get(name=service1.findtext('wms:Name', default='', namespaces=helper.ns)).id
+        service1_id = 3  # for testing only, later this will be "self"
+        layer_db_1 = helper.get_layers_from_db(service1_id)
+        print("LAYER DB 1: ", type(layer_db_1), layer_db_1)
+        # layer_xml_2 = helper.get_layers_from_xml(xml_file_2)
+        layer_xml_2 = parser.parse_wms_capabilities(xml_file_2)[1]
+        print("LAYER XML 2: ", type(layer_xml_2), layer_xml_2)
+        layer_del, layer_new, layer_mod, layer_pos = comparator.compare_layers(service1_id, xml_file_2)
+        print("LAYER DIFF: ", layer_del, layer_new)
+        print("LAYER MOD: ", layer_mod)
+        """
+        context = { 
+            "xml_file_1": xml_file_1,
+            "xml_file_2": xml_file_2,
+            "xml_name_1": xml_name_1,
+            "xml_name_2": xml_name_2,
+            "edit_file": edit_file,
+            "wms1_service": service1,
+            "wms2_service": service2,
+            "check": check,
+            "diff": diff,
+            "service_part_diff": service_part_diff,
+            # "layer_db_1": layer_db_1,
+            # "layer_xml_2": layer_xml_2,
+            # "layer_del": layer_del,
+            # "layer_new": layer_new,
+            # "layer_mod": layer_mod,
+            # "layer_pos": layer_pos,
+        }
+
+        return render(request, "update_app/wfs.html", context)
+

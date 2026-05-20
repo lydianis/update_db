@@ -1,0 +1,95 @@
+{% extends "update_app/layout.html" %}
+{% block title %}
+About
+{% endblock %}
+{% block content %}
+{% load update_app_tags %}
+<h2>WebFeatureService</h2>
+<p>Old WebFeatureService: {{ xml_file_1 }} </p>
+<p>New WebFeatureService: {{ xml_file_2 }} </p>
+
+<h3>Check for Service Type and Version</h3>
+{% if not check %}
+  <p>Service Type or Version does not match; update is not possible.</p>
+{% else %}
+  <p>Service Type and Version match.</p>
+  {% if not edit_file %}
+    <p>There are no differences!</p>
+  {% else %}
+    <p>There are differences; an update is needed!</p>
+    <p>Differences:</p>
+    {{ edit_file }}
+  {% endif %}
+{% endif %}
+
+
+<h3>Service Part: Differences</h3>
+<ul>
+  {% for element in service_part_diff %}
+    {% with element.tag|split:'&#125;' as elem %}
+    <li>{{ elem }} – {{ element.text }}</li>
+    {% endwith %}
+  {% empty %}
+    <p>There are no differences in the Service Part</p>
+  {% endfor %}
+</ul>
+<!--
+<h3>Layers in DB</h3>
+<ul>
+  {% for layer in layer_db_1 %}
+    <li>{{ layer.name }} –  Title: {{ layer.title }}; Parent: {{ layer.parent }}, Left: {{ layer.lft }}, Right: {{ layer.rght }}   </li>
+  {% empty %}
+    <li>Keine Layer in der Datenbank</li>
+  {% endfor %}
+</ul>
+
+<h3>Layers from new WMS</h3>
+<ul>
+  {% for layer, values in layer_xml_2.items %}
+    <li>{{ layer }} – Name: {{ values.name }}, Title: {{ values.title }}; Left: {{values.lft}}, Right: {{ values.rght }} </li>
+  {% empty %}
+    <li>Keine Layer im neuen WMS</li>
+  {% endfor %}
+</ul>
+
+<h3>Entfernte Layer (aus {{ xml_name_1 }})</h3>
+<ul>
+  {% for layer in layer_del %}
+    <li>{{ layer.name }}</li>
+  {% empty %}
+    <li>Keine entfernten Layer</li>
+  {% endfor %}
+</ul>
+
+<h3>Neue Layer (in {{ xml_name_2 }})</h3>
+<ul>
+  {% for layer in layer_new %}
+    <li>{{ layer }}</li>
+  {% empty %}
+    <li>Keine neuen Layer</li>
+  {% endfor %}
+</ul>
+
+<h3>Geänderte Layer</h3>
+<ul>
+  {% for l1, l2 in layer_mod %}
+    <li>{{ l1.name }}: "{{ l1.title }}" → "{{ l2.title }}"</li>
+  {% empty %}
+    <li>Keine Änderungen</li>
+  {% endfor %}
+</ul>
+-->
+
+<a href="{% url 'update_service' 3 %}">
+  <button type="submit">Service-Update</button>
+</a>
+
+<a href="{% url 'update_layer' 3 %}">
+  <button type="submit">Layer-Update</button>
+</a>
+
+<a href="{% url 'reset_database' %}">
+  <button type="submit">Reset Datenbank</button>
+</a>
+
+{% endblock %}

@@ -120,7 +120,9 @@ def extract_layers(layer_elem, layers):
         extract_layers(child, layers)
 
 # Beispiel im Import-Script:
-tree = ET.parse("/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0.xml")
+# tree = ET.parse("/home/lydia/Documents/python/update_db/update_app/files/fixture_1.3.0.xml")
+tree = ET.parse("/home/nisius/python/update_db/update_app/files/fixture_1.3.0.xml")
+# update_app/files/fixture_1.3.0.xml
 root = tree.getroot()
 
 layers = {}
