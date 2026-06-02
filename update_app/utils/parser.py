@@ -6,7 +6,7 @@ from lxml import etree
 
 
 def get_root():
-    root = etree.getroot()
+    root = etree.getroot() # geht so nicht?
     # print(root.tag, ": ", root)
     return root
 

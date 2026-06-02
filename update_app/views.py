@@ -343,7 +343,6 @@ class WebFeatureServiceView(TemplateView):
         xml_file_2 = '/home/nisius/python/update_db/update_app/files/fixture_2.0.0_modified.xml'
         # xml_file_2 = '/home/nisius/python/update_db/update_app/files/fixture_1.3.0_hashtest.xml'
 
-
         xml_name_1 = Path(xml_file_1).name
         xml_name_2 = Path(xml_file_2).name
 

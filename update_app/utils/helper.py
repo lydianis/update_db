@@ -5,7 +5,7 @@ from update_app.models import TransientLayer, Layer
 # Defines xml namespaces used for xml parsing and creating
 ns = {
     "ogc": "http://www.opengis.net/ogc",
-    "ows": "http://www.opengis.net/ows",
+    "ows": "http://www.opengis.net/ows/1.1",
     "wfs": "http://www.opengis.net/wfs",
     "wms": "http://www.opengis.net/wms",
     "xlink": "http://www.w3.org/1999/xlink",
@@ -33,8 +33,10 @@ ns = {
 def get_service_type(xml_file):
     service = etree.parse(xml_file)
     service_root = service.getroot()
-    service_type = service_root[0][0].text
-    print("Service Type: ", service_type)
+    service_type = service_root[0][0].text  # geht so für wms
+    if "wfs" in service_root:
+        service_type = service_root.xpath("//ows:ServiceType")[0].text
+        print("Service Type: ", service_type)
     return service_type
 
 
@@ -51,15 +53,25 @@ def get_service_part(xml_file):
     service_root = service.getroot()
     if get_service_type(xml_file) == 'WMS':
         service_elements = service_root.xpath("//wms:Service/descendant::*", namespaces=ns)
-    elif get_service_type(xml_file) == 'WFS':
+    # elif get_service_type(xml_file) == 'WFS':
+    elif "WFS" in get_service_type(xml_file):
         print("WFS geht noch nicht ;-)")
-        service_elements = service_root.xpath("//wfs:Service/descendant::*", namespaces=ns)
+        service_elements = service_root.xpath("//ows:ServiceIdentification/descendant::*", namespaces=ns)
+        service_elements.extend(service_root.xpath("//ows:ServiceProvider/descendant::*", namespaces=ns))
+        print("WFS: ", service_elements)
     else:
         print("Service Type not known!")
-    elements = [] 
+    elements = []
+    """
     for element in service_elements:
         elements.append(element)
         # print(element.tag, ": ", element.text)
+    """
+    for element in service_elements:
+        local_name = etree.QName(element).localname
+        text = (element.text or "").strip()
+        print(local_name, ":", text)
+        elements.extend(element)
     return elements
     
 def get_service_id():
